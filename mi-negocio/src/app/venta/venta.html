@@ -1,8 +1,21 @@
 <main class="menu">
   <h1>Nueva venta</h1>
 
-  <button class="boton verde">📷 Escanear producto</button>
-  <button class="boton azul">🔍 Buscar producto</button>
+  <p class="saludo">{{ mensaje }}</p>
+  <p>total: ${{ total }}</p>
 
+  <button class="boton verde" (click)="escanear()">📷 Escanear producto</button>
+  <button class="boton azul" (click)="buscar()">🔍 Buscar producto</button>
+    @if (seleccionado) {
+    <p class="saludo">Elegiste: {{ seleccionado }}</p>
+  }
+
+  @for (p of productos; track p.id) {
+    <button class="boton morado" (click)="elegir(p)">
+      {{ p.nombre }} - $ {{ p.precio }}
+    </button>
+  }
+  
+  <button class="boton gris" (click)="sumar()">+ $1.000</button>
   <a class="boton gris" routerLink="/">← Volver al menú</a>
 </main>
