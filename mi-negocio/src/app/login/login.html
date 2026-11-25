@@ -1,0 +1,13 @@
+<main class="menu">
+  <h1>Mi Negocio</h1>
+  <p class="saludo">Inicia sesión para continuar</p>
+
+  <input class="buscador" type="email" placeholder="Correo" [(ngModel)]="correo" />
+  <input class="buscador" type="password" placeholder="Clave" [(ngModel)]="clave" />
+
+  @if (error) {
+    <p class="error">{{ error }}</p>
+  }
+
+  <button class="boton verde" (click)="entrar()">Entrar</button>
+</main>

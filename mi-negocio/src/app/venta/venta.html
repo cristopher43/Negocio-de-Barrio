@@ -1,0 +1,21 @@
+<main class="menu">
+  <h1>Nueva venta</h1>
+  <p class="saludo">{{ mensaje }}</p>
+  <p>Total: $ {{ total }}</p>
+
+  <button class="boton verde" (click)="escanear()">📷 Escanear producto</button>
+
+  <input class="buscador" type="text" placeholder="Buscar producto" [(ngModel)]="busqueda" />
+
+  @if (seleccionado) {
+    <p class="saludo">Elegiste: {{ seleccionado }}</p>
+  }
+
+  @for (p of resultados; track p.id) {
+    <button class="boton morado" (click)="elegir(p)">
+      {{ p.nombre }} - $ {{ p.precio }}
+    </button>
+  }
+
+  <a class="boton gris" routerLink="/">← Volver al menú</a>
+</main>
