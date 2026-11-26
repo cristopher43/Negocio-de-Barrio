@@ -5,6 +5,8 @@ import { Login } from './login/login';
 import { Privacidad } from './privacidad/privacidad';
 import { ProductoNuevo } from './producto-nuevo/producto-nuevo';
 import { Pendientes } from './pendientes/pendientes';
+import { Precios } from './precios/precios';
+
 
 
 
@@ -16,5 +18,6 @@ export const routes: Routes = [
   { path: 'privacidad', component: Privacidad },
   { path: 'producto-nuevo', component: ProductoNuevo },
   { path: 'pendientes', component: Pendientes },
+  { path: 'precios', component: Precios },
   { path: '**', redirectTo: 'login' },
 ];
