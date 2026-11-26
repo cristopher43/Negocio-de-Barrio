@@ -1,40 +1,103 @@
-<main class="menu">
-  <h1>Pendientes</h1>
-  <p class="saludo">Pon el precio de cada producto que llegó</p>
+<header class="encabezado">
+  <div class="encabezado-interno">
+    <span class="circulo" aria-hidden="true">
+      <span class="material-symbols-outlined">storefront</span>
+    </span>
+    <h1>Pendientes</h1>
+    <span class="circulo oscuro" aria-hidden="true">
+      <span class="material-symbols-outlined">person</span>
+    </span>
+  </div>
+</header>
+
+<main class="pantalla">
+  <section class="tarjeta fila-tarjeta">
+    <span class="circulo-suave material-symbols-outlined">inventory_2</span>
+    <div>
+      <p class="azul-texto">RECEPCIÓN DE MERCADERÍA</p>
+      <strong class="grande">Productos por etiquetar</strong>
+    </div>
+  </section>
 
   @if (error()) {
-    <p class="error">{{ error() }}</p>
+    <div class="aviso-error" role="alert">
+      <span class="material-symbols-outlined">error</span>
+      <p>{{ error() }}</p>
+    </div>
   }
+
   @if (mensaje()) {
-    <p class="saludo">{{ mensaje() }}</p>
+    <p class="aviso-info">{{ mensaje() }}</p>
   }
 
-  @for (grupo of grupos(); track grupo.marcaId ?? 'sin-marca') {
-    <section class="grupo">
-      <h2>
-        {{ grupo.marcaNombre }}
+  <section class="tarjeta">
+    <div class="aviso-info fila-tarjeta">
+      <span class="material-symbols-outlined">price_check</span>
+      <p>Pon el precio de cada producto que llegó para actualizar tu mostrador.</p>
+    </div>
+
+    @for (grupo of grupos(); track grupo.marcaNombre) {
+      <div class="grupo-marca">
+        <h2 class="titulo-seccion">
+          <span class="material-symbols-outlined">sell</span>
+          {{ grupo.marcaNombre }}
+        </h2>
+
         @if (grupo.marcaEstado === 'pendiente') {
-          <span class="etiqueta">Marca nueva</span>
+          <div class="fila-marca">
+            <span class="etiqueta-naranja">
+              <span class="material-symbols-outlined">new_releases</span>
+              Marca nueva
+            </span>
+            <button class="boton chico" type="button" (click)="confirmarMarca(grupo)">
+              <span class="material-symbols-outlined">verified</span>
+              Confirmar marca
+            </button>
+          </div>
         }
-      </h2>
 
-      @if (grupo.marcaEstado === 'pendiente') {
-        <button class="boton azul" (click)="confirmarMarca(grupo)">Confirmar marca</button>
-      }
+        @for (item of grupo.items; track item.id) {
+          <article class="tarjeta fila-producto">
+            <span class="icono-caja-suave material-symbols-outlined">inventory_2</span>
+            <strong>{{ item.nombre }}</strong>
+            <input class="precio-input precio-corto" type="text" inputmode="numeric"
+                   placeholder="$ 0" formatoMiles
+                   [(ngModel)]="item.precioInput"
+                   [attr.aria-label]="'Precio de ' + item.nombre">
+          </article>
+        }
+      </div>
+    } @empty {
+      <p class="centrado subtitulo">No hay productos esperando precio.</p>
+    }
+  </section>
 
-      @for (item of grupo.items; track item.id) {
-        <div class="fila">
-          <span class="nombre">{{ item.nombre }}</span>
-          <input class="buscador" type="number" placeholder="$" [(ngModel)]="item.precioInput" />
-        </div>
-      }
-    </section>
-  }
+  <button class="boton verde" type="button" (click)="guardarTodos()">
+    <span class="material-symbols-outlined">save</span>
+    Guardar todos
+  </button>
 
-  @if (grupos().length === 0 && !error()) {
-    <p class="saludo">No hay productos esperando precio</p>
-  }
-
-  <button class="boton verde" (click)="guardarTodos()">Guardar todos</button>
-  <a class="boton gris" routerLink="/">← Volver al menú</a>
+  <a class="boton gris" routerLink="/menu">
+    <span class="material-symbols-outlined">arrow_back</span>
+    Volver al menú
+  </a>
 </main>
+
+<nav class="navegacion">
+  <a routerLink="/menu">
+    <span class="material-symbols-outlined">grid_view</span>
+    Menú
+  </a>
+  <a routerLink="/vender">
+    <span class="material-symbols-outlined">point_of_sale</span>
+    Venta
+  </a>
+  <span>
+    <span class="material-symbols-outlined">receipt_long</span>
+    Fiados
+  </span>
+  <a routerLink="/precios">
+    <span class="material-symbols-outlined">sell</span>
+    Precios
+  </a>
+</nav>

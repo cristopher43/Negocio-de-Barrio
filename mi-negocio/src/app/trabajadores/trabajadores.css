@@ -1,0 +1,13 @@
+.casilla {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 17px;
+  line-height: 26px;
+}
+.casilla input {
+  width: 22px;
+  height: 22px;
+  margin-top: 3px;
+  flex: 0 0 22px;
+}

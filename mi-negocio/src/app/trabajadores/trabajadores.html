@@ -1,0 +1,76 @@
+<header class="encabezado">
+  <div class="encabezado-interno">
+    <a class="circulo" routerLink="/menu" aria-label="Volver al menú">
+      <span class="material-symbols-outlined">arrow_back</span>
+    </a>
+    <h1>Trabajadores</h1>
+    <span class="circulo oscuro" aria-hidden="true">
+      <span class="material-symbols-outlined">person</span>
+    </span>
+  </div>
+</header>
+
+<main class="pantalla">
+  @if (error()) {
+    <div class="aviso-error" role="alert">
+      <span class="material-symbols-outlined">error</span>
+      <p>{{ error() }}</p>
+    </div>
+  }
+
+  @if (mensaje()) {
+    <p class="aviso-info">{{ mensaje() }}</p>
+  }
+
+  <section class="tarjeta formulario">
+    <h2>Nuevo trabajador</h2>
+
+    <label class="campo">
+      <span class="etiqueta">Nombre</span>
+      <input type="text" name="nombre" [(ngModel)]="nombre">
+    </label>
+
+    <label class="campo">
+      <span class="etiqueta">Correo</span>
+      <input type="email" name="correo" [(ngModel)]="correo">
+    </label>
+
+    <label class="campo">
+      <span class="etiqueta">Clave temporal (mínimo 8 caracteres)</span>
+      <input type="password" name="clave" [(ngModel)]="clave">
+    </label>
+
+    <label class="casilla">
+      <input type="checkbox" name="privacidad" [(ngModel)]="aceptaPrivacidad">
+      <span>
+        Acepto que se guarden los datos de trabajo según el
+        <a class="enlace" routerLink="/privacidad">aviso de privacidad</a>.
+      </span>
+    </label>
+
+    <button class="boton verde" type="button"
+            [disabled]="guardando() || !aceptaPrivacidad"
+            (click)="crear()">
+      <span class="material-symbols-outlined">person_add</span>
+      {{ guardando() ? 'Creando...' : 'Crear trabajador' }}
+    </button>
+  </section>
+
+  <section class="tarjeta">
+    <h2>Trabajadores del negocio</h2>
+
+    @for (t of trabajadores(); track t.id) {
+      <article class="fila-producto">
+        <strong>{{ t.nombre }}</strong>
+        <span class="ayuda-texto">{{ t.correo }}</span>
+      </article>
+    } @empty {
+      <p class="subtitulo">Todavía no tienes trabajadores.</p>
+    }
+  </section>
+
+  <a class="boton gris" routerLink="/menu">
+    <span class="material-symbols-outlined">arrow_back</span>
+    Volver al menú
+  </a>
+</main>

@@ -2,8 +2,9 @@ import { Component, OnInit, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { supabase } from '../supabase';
-import { obtenerSesion } from '../sesion';
+import { obtenerSesion, Sesion } from '../sesion';
 import { formatoMiles, soloNumero } from '../formato';
+import { UsuarioAvatarComponent } from '../usuario-avatar.component';
 
 type Producto = {
   id: string;
@@ -15,7 +16,7 @@ type Producto = {
 
 @Component({
   selector: 'app-precios',
-  imports: [FormsModule, RouterLink],
+  imports: [FormsModule, RouterLink, UsuarioAvatarComponent],
   templateUrl: './precios.html',
   styleUrl: './precios.css',
 })
@@ -23,10 +24,21 @@ export class Precios implements OnInit {
   productos = signal<Producto[]>([]);
   mensaje = signal('');
   error = signal('');
+  busqueda = signal('');
 
-  sesion: { idUsuario: string; idNegocio: string; rol: string } | null = null;
+  sesion: Sesion | null = null;
 
   formato = formatoMiles;
+
+  get productosFiltrados(): Producto[] {
+    const texto = this.busqueda().trim().toLowerCase();
+    if (!texto) return this.productos();
+    return this.productos().filter(
+      (p) =>
+        p.nombre.toLowerCase().includes(texto) ||
+        p.marca.toLowerCase().includes(texto)
+    );
+  }
 
   async ngOnInit() {
     this.sesion = await obtenerSesion();

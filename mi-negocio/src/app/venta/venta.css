@@ -47,3 +47,19 @@ h1 {
 .morado { background: #7b4fd1; }
 .azul { background: #1f6fd1; }
 .gris { background: #6b6b6b; }
+
+.rojo { background: #b00020; }
+
+.cantidad {
+  font-size: 22px;
+  font-weight: bold;
+  min-width: 30px;
+  text-align: center;
+}
+
+.total {
+  font-size: 28px;
+  font-weight: bold;
+  color: #0c447c;
+  margin-top: 20px;
+}

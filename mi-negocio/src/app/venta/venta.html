@@ -1,21 +1,124 @@
-<main class="menu">
-  <h1>Nueva venta</h1>
-  <p class="saludo">{{ mensaje() }}</p>
-  <p>Total: $ {{ total }}</p>
+<header class="encabezado">
+  <div class="encabezado-interno">
+    <span class="circulo" aria-hidden="true">
+      <span class="material-symbols-outlined">storefront</span>
+    </span>
+    <h1>Nueva Venta</h1>
+    <span class="circulo oscuro" aria-hidden="true">
+      <span class="material-symbols-outlined">person</span>
+    </span>
+  </div>
+</header>
 
-  <button class="boton verde" (click)="escanear()">📷 Escanear producto</button>
+<main class="pantalla">
+  <div class="venta-grid">
 
-  <input class="buscador" type="text" placeholder="Escribe el nombre o la marca..." [(ngModel)]="busqueda" />
+    <!-- Columna izquierda: escanear y buscar -->
+    <div class="columna">
+      <button class="boton claro" type="button" (click)="escanear()">
+        <span class="material-symbols-outlined">photo_camera</span>
+        Escanear producto
+      </button>
 
-  @if (seleccionado) {
-    <p class="saludo">Elegiste: {{ seleccionado }}</p>
-  }
+      <div class="separador"><span>o</span></div>
 
-  @for (p of resultados; track p.id) {
-    <button class="boton morado" (click)="elegir(p)">
-      {{ p.marca }} {{ p.nombre }} - $ {{ p.precio }}
-    </button>
-  }
+      <label class="buscador">
+        <span class="material-symbols-outlined">search</span>
+        <input type="text" [(ngModel)]="busqueda" placeholder="Buscar producto..."
+               aria-label="Buscar producto">
+      </label>
 
-  <a class="boton gris" routerLink="/">← Volver al menú</a>
+      @if (mensaje()) {
+        <p class="aviso-info">{{ mensaje() }}</p>
+      }
+
+      @if (busqueda.trim()) {
+        <h3 class="subtitulo">Sugerencias rápidas</h3>
+        <div class="lista-resultados">
+          @for (p of resultados; track p.id) {
+            <button class="fila-resultado" type="button" (click)="agregar(p)">
+              <span class="icono-caja-suave material-symbols-outlined">inventory_2</span>
+              <span class="nombre">{{ p.marca }} {{ p.nombre }}</span>
+              <span class="precio-azul">$ {{ formato(p.precio) }}</span>
+              <span class="material-symbols-outlined">chevron_right</span>
+            </button>
+          } @empty {
+            <p class="subtitulo">No encontramos ese producto.</p>
+          }
+        </div>
+      }
+    </div>
+
+    <!-- Columna derecha: carrito -->
+    <div class="columna">
+      <h2 class="titulo-seccion">
+        <span class="material-symbols-outlined">shopping_cart</span>
+        Carrito ({{ carrito().length }} items)
+        <span class="chip">Activo</span>
+      </h2>
+
+      @for (item of carrito(); track item.producto.id) {
+      <article class="tarjeta item">
+          <div class="item-cabecera">
+            <div>
+              <strong class="nombre">{{ item.producto.marca }} {{ item.producto.nombre }}</strong>
+              <p>Precio unitario: $ {{ formato(item.producto.precio) }}</p>
+            </div>
+            <span class="precio-azul">$ {{ formato(item.producto.precio * item.cantidad) }}</span>
+          </div>
+
+          <div class="item-controles">
+            <div class="cantidad">
+              <button type="button" (click)="cambiarCantidad(item, -1)" aria-label="Restar uno">−</button>
+              <span>{{ item.cantidad }}</span>
+              <button type="button" (click)="cambiarCantidad(item, 1)" aria-label="Sumar uno">+</button>
+            </div>
+
+            <button class="boton-quitar" type="button" (click)="quitar(item)" aria-label="Quitar producto">
+              <span class="material-symbols-outlined">delete</span>
+            </button>
+          </div>
+        </article>
+      } @empty {
+        <p class="subtitulo">Todavía no hay productos. Busca uno para agregarlo.</p>
+      }
+
+      <section class="tarjeta total">
+        <span class="titulo-total">
+          <span class="material-symbols-outlined">receipt_long</span>
+          Total:
+        </span>
+        <strong class="precio-azul">$ {{ formato(total) }}</strong>
+      </section>
+
+      <button class="boton verde" type="button" disabled>
+        <span class="material-symbols-outlined">check_circle</span>
+        Continuar
+      </button>
+
+      <a class="boton gris" routerLink="/menu">
+        <span class="material-symbols-outlined">arrow_back</span>
+        Volver al menú
+      </a>
+    </div>
+  </div>
 </main>
+
+<nav class="navegacion">
+  <a routerLink="/menu">
+    <span class="material-symbols-outlined">grid_view</span>
+    Menú
+  </a>
+  <a class="activo" routerLink="/vender">
+    <span class="material-symbols-outlined">point_of_sale</span>
+    Venta
+  </a>
+  <span>
+    <span class="material-symbols-outlined">receipt_long</span>
+    Fiados
+  </span>
+  <a routerLink="/precios">
+    <span class="material-symbols-outlined">sell</span>
+    Precios
+  </a>
+</nav>

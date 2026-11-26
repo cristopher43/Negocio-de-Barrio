@@ -2,8 +2,10 @@ import { Component, OnInit, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { supabase } from '../supabase';
+import { formatoMiles } from '../formato';
 
 type Producto = { id: string; nombre: string; marca: string; precio: number };
+type ItemCarrito = { producto: Producto; cantidad: number };
 
 @Component({
   selector: 'app-venta',
@@ -14,15 +16,23 @@ type Producto = { id: string; nombre: string; marca: string; precio: number };
 export class Venta implements OnInit {
   mensaje = signal('Cargando productos...');
   productos = signal<Producto[]>([]);
-  total = 0;
+  carrito = signal<ItemCarrito[]>([]);
   busqueda = '';
-  seleccionado: string | null = null;
+
+  formato = formatoMiles;
+
+  // El total se calcula solo a partir del carrito
+  get total(): number {
+    return this.carrito().reduce(
+      (suma, item) => suma + item.producto.precio * item.cantidad,
+      0
+    );
+  }
 
   get resultados() {
     const texto = this.busqueda.trim().toLowerCase();
     if (!texto) return [];
 
-    // Busca en marca y nombre juntos
     return this.productos().filter((p) =>
       `${p.marca} ${p.nombre}`.toLowerCase().includes(texto)
     );
@@ -47,15 +57,44 @@ export class Venta implements OnInit {
         precio: Number(p.precio),
       }))
     );
-    this.mensaje.set('Escanea un producto o búscalo por nombre');
+    this.mensaje.set('Busca un producto para agregarlo');
   }
 
   escanear() {
     this.mensaje.set('Cámara lista para escanear');
   }
 
-  elegir(producto: Producto) {
-    this.seleccionado = `${producto.marca} ${producto.nombre}`.trim();
-    this.total += producto.precio;
+  // CREAR: agrega el producto, o le suma 1 si ya está en el carrito
+  agregar(producto: Producto) {
+    const existente = this.carrito().find((i) => i.producto.id === producto.id);
+
+    if (existente) {
+      this.cambiarCantidad(existente, 1);
+    } else {
+      this.carrito.set([...this.carrito(), { producto, cantidad: 1 }]);
+    }
+    this.busqueda = '';
+  }
+
+  // ACTUALIZAR: sube o baja la cantidad
+  cambiarCantidad(item: ItemCarrito, cambio: number) {
+    const nueva = item.cantidad + cambio;
+    if (nueva <= 0) {
+      this.quitar(item);
+      return;
+    }
+
+    this.carrito.set(
+      this.carrito().map((i) =>
+        i.producto.id === item.producto.id ? { ...i, cantidad: nueva } : i
+      )
+    );
+  }
+
+  // BORRAR: saca el producto del carrito
+  quitar(item: ItemCarrito) {
+    this.carrito.set(
+      this.carrito().filter((i) => i.producto.id !== item.producto.id)
+    );
   }
 }

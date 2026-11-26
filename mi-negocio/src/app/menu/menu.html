@@ -1,13 +1,122 @@
-<main class="menu">
-  <h1>Mi Negocio</h1>
-  <p class="saludo">¿Qué quieres hacer?</p>
+<header class="encabezado">
+  <div class="encabezado-interno">
+    <span class="circulo" aria-hidden="true">
+      <span class="material-symbols-outlined">storefront</span>
+    </span>
+    <h1>Menú Principal</h1>
+    <app-usuario-avatar [sesion]="sesion" (alCerrarSesion)="salir()"></app-usuario-avatar>
+  </div>
+</header>
 
-  <a class="boton verde" routerLink="/vender">🛒 Vender</a>
-  <button class="boton morado">📋 Mis ventas</button>
-    <a class="boton azul" routerLink="/pendientes">💲 Pendientes</a>
-  <button class="boton azul">👥 Fiados</button>
-    <a class="boton gris" routerLink="/producto-nuevo">📦 Productos</a>
-      <a class="boton morado" routerLink="/precios">🏷️ Cambiar precios</a>
-  <button class="boton gris">⚙️ Configuración</button>
-    <a class="boton gris" routerLink="/privacidad">🔒 Privacidad</a>
+<main class="pantalla">
+  @if (sesion) {
+    <section class="tarjeta fila-tarjeta">
+      <span class="circulo-suave material-symbols-outlined">badge</span>
+      <div class="grow">
+        <strong class="grande">{{ sesion.nombre }}</strong>
+        <p class="ayuda-texto">{{ sesion.correo }}</p>
+        <p class="ayuda-texto">Si no eres tú, cierra sesión abajo.</p>
+      </div>
+      <span class="chip">{{ sesion.rol === 'dueno' ? 'Dueño' : 'Trabajador' }}</span>
+    </section>
+  }
+
+  <section class="tarjeta fila-tarjeta">
+    <span class="circulo-ok material-symbols-outlined">check_circle</span>
+    <div class="grow">
+      <span class="ayuda-texto">Caja del Día</span>
+      <strong class="verde-texto grande">Abierta y lista</strong>
+    </div>
+    <span class="chip gris">● En línea</span>
+  </section>
+
+  <section class="tarjeta">
+    <div class="centrado">
+      <h2>¿Qué quieres hacer?</h2>
+      <p class="subtitulo">Presiona la opción que necesitas usar hoy</p>
+    </div>
+
+    <nav class="lista-botones">
+      <a class="boton lista verde" routerLink="/vender">
+        <span class="icono-caja material-symbols-outlined">shopping_cart</span>
+        <span class="texto">Vender</span>
+        <span class="material-symbols-outlined flecha">chevron_right</span>
+      </a>
+
+      <button class="boton lista morado" type="button" disabled>
+        <span class="icono-caja material-symbols-outlined">receipt_long</span>
+        <span class="texto">Mis ventas</span>
+        <span class="material-symbols-outlined flecha">chevron_right</span>
+      </button>
+
+      <button class="boton lista" type="button" disabled>
+        <span class="icono-caja material-symbols-outlined">group</span>
+        <span class="texto">Fiados</span>
+        <span class="material-symbols-outlined flecha">chevron_right</span>
+      </button>
+
+      <a class="boton lista" routerLink="/pendientes">
+        <span class="icono-caja material-symbols-outlined">payments</span>
+        <span class="texto">Pendientes</span>
+        <span class="material-symbols-outlined flecha">chevron_right</span>
+      </a>
+
+      <a class="boton lista" routerLink="/precios">
+        <span class="icono-caja material-symbols-outlined">sell</span>
+        <span class="texto">Cambiar precios</span>
+        <span class="material-symbols-outlined flecha">chevron_right</span>
+      </a>
+
+      <a class="boton lista" routerLink="/producto-nuevo">
+        <span class="icono-caja material-symbols-outlined">inventory_2</span>
+        <span class="texto">Productos</span>
+        <span class="material-symbols-outlined flecha">chevron_right</span>
+      </a>
+
+      <a class="boton lista" routerLink="/trabajadores">
+        <span class="icono-caja material-symbols-outlined">group_add</span>
+        <span class="texto">Trabajadores</span>
+        <span class="material-symbols-outlined flecha">chevron_right</span>
+      </a>
+
+      <a class="boton lista gris" routerLink="/privacidad">
+        <span class="icono-caja material-symbols-outlined">lock</span>
+        <span class="texto">Privacidad</span>
+        <span class="material-symbols-outlined flecha">chevron_right</span>
+      </a>
+
+      <button class="boton lista rojo" type="button" (click)="salir()">
+        <span class="icono-caja material-symbols-outlined">logout</span>
+        <span class="texto">Cerrar sesión</span>
+        <span class="material-symbols-outlined flecha">chevron_right</span>
+      </button>
+    </nav>
+  </section>
+
+  <section class="tarjeta fila-tarjeta">
+    <span class="circulo-suave material-symbols-outlined">support_agent</span>
+    <div>
+      <strong>¿Dudas con una venta?</strong>
+      <p class="subtitulo">Siempre puedes anular o corregir un cobro en la sección "Mis ventas". ¡Sin apuros!</p>
+    </div>
+  </section>
 </main>
+
+<nav class="navegacion">
+  <a class="activo" routerLink="/menu">
+    <span class="material-symbols-outlined">grid_view</span>
+    Menú
+  </a>
+  <a routerLink="/vender">
+    <span class="material-symbols-outlined">point_of_sale</span>
+    Venta
+  </a>
+  <span>
+    <span class="material-symbols-outlined">receipt_long</span>
+    Fiados
+  </span>
+  <a routerLink="/precios">
+    <span class="material-symbols-outlined">sell</span>
+    Precios
+  </a>
+</nav>

@@ -3,12 +3,13 @@ import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { supabase } from '../supabase';
 import { obtenerSesion } from '../sesion';
+import { FormatoMilesDirective } from '../formato-miles.directive';
 
 type Marca = { id: string; nombre: string };
 
 @Component({
   selector: 'app-producto-nuevo',
-  imports: [FormsModule, RouterLink],
+  imports: [FormsModule, RouterLink, FormatoMilesDirective],
   templateUrl: './producto-nuevo.html',
   styleUrl: './producto-nuevo.css',
 })
@@ -102,19 +103,10 @@ export class ProductoNuevo implements OnInit {
       return;
     }
 
-    // 3. Se registra la entrada de stock
-    await supabase.from('movimiento_stock').insert({
-      id_producto: producto.id,
-      id_usuario: idUsuario,
-      tipo: 'entrada',
-      cantidad: this.cantidad,
-      motivo: 'Llegada de mercadería',
-    });
-
-    this.mensaje.set('Listo. Quedó esperando precio.');
+    this.mensaje.set('Producto registrado exitosamente');
     this.nombre = '';
     this.cantidad = null;
-    this.marcaId = '';
     this.marcaNueva = '';
+    this.marcaId = '';
   }
 }

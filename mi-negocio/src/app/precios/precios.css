@@ -1,37 +1,286 @@
-.fila {
+/* Estilos mejorados y responsive para Cambiar Precios (Móvil, Tablet y PC) */
+
+.caja-busqueda {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.encabezado-modo {
   display: flex;
   align-items: center;
   gap: 10px;
-  flex-wrap: wrap;
-  margin-bottom: 14px;
-  text-align: left;
 }
 
-.info {
-  flex: 1;
+.icono-modo {
+  font-size: 26px;
+  color: var(--azul);
+}
+
+.titulo-modo {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--texto);
+}
+
+.badge-protegido {
+  margin-left: auto;
+  background: var(--azul-claro);
+  color: var(--azul-oscuro);
+  font-size: 13px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 999px;
+}
+
+.etiqueta-busqueda {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--texto-suave);
+  margin-top: 4px;
+}
+
+.input-busqueda-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-busqueda-wrap .icono-buscar {
+  position: absolute;
+  left: 14px;
+  font-size: 24px;
+  color: var(--texto-suave);
+  pointer-events: none;
+}
+
+.input-busqueda {
+  width: 100%;
+  height: 52px;
+  padding-left: 48px;
+  padding-right: 16px;
+  background: var(--gris);
+  border: 1.5px solid var(--borde);
+  border-radius: var(--radio);
+  font-size: 16px;
+  color: var(--texto);
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.input-busqueda:focus {
+  background: #ffffff;
+  border-color: var(--azul);
+  box-shadow: var(--foco);
+}
+
+.barra-estado-lista {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 4px;
+  font-size: 15px;
+}
+
+.contador-prod {
+  font-weight: 700;
+  color: var(--texto-suave);
+}
+
+.estado-actualizado {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--verde);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.estado-actualizado .material-symbols-outlined {
+  font-size: 18px;
+}
+
+/* Grilla responsive: 1 columna en móvil, 2 columnas en tablet/laptop, 3 en pantallas anchas */
+.grilla-productos-precios {
   display: flex;
   flex-direction: column;
-  min-width: 150px;
+  gap: 16px;
+  width: 100%;
 }
 
-.nombre {
-  font-size: 20px;
-  font-weight: bold;
+@media (min-width: 640px) {
+  .grilla-productos-precios {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    align-items: stretch;
+    gap: 16px;
+  }
 }
 
-.actual {
-  font-size: 16px;
-  color: #555;
+@media (min-width: 1024px) {
+  .grilla-productos-precios {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
 }
 
-.fila .buscador {
-  width: 130px;
-  margin-bottom: 0;
+.grilla-vacia {
+  grid-column: 1 / -1;
+  padding: 32px 16px;
 }
 
-.chico {
-  width: auto;
-  padding: 14px 18px;
+/* Tarjeta individual de producto */
+.card-producto {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 14px;
+  background: #ffffff;
+  border-radius: var(--radio);
+  padding: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  border: 1.5px solid var(--borde);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.card-producto:hover {
+  border-color: #b5c7e8;
+  box-shadow: 0 4px 14px rgba(31, 95, 214, 0.08);
+}
+
+.card-producto-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.producto-avatar {
+  width: 58px;
+  height: 58px;
+  flex: 0 0 58px;
+  border-radius: 12px;
+  background: #eef3fc;
+  color: var(--azul);
+  display: grid;
+  place-items: center;
+}
+
+.producto-avatar .material-symbols-outlined {
+  font-size: 30px;
+}
+
+.producto-info {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  flex: 1;
+}
+
+.producto-categoria-marca {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--azul);
+}
+
+.nombre-prod {
   font-size: 18px;
-  margin-bottom: 0;
+  font-weight: 700;
+  color: var(--texto);
+  line-height: 1.3;
+  margin: 2px 0 4px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.precio-anterior-wrap {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 15px;
+}
+
+.label-hoy {
+  color: var(--texto-suave);
+  font-weight: 500;
+}
+
+.precio-tachado {
+  color: var(--rojo);
+  font-weight: 700;
+  text-decoration: line-through;
+}
+
+/* Fila de cambio de precio */
+.card-producto-action {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.input-nuevo-wrap {
+  position: relative;
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.input-nuevo-wrap .signo-peso {
+  position: absolute;
+  left: 14px;
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--texto-suave);
+  pointer-events: none;
+}
+
+.input-nuevo-precio {
+  width: 100%;
+  height: 50px;
+  padding-left: 32px;
+  padding-right: 12px;
+  background: var(--gris);
+  border: 1.5px solid var(--borde);
+  border-radius: var(--radio);
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--texto);
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.input-nuevo-precio:focus {
+  background: #ffffff;
+  border-color: var(--verde);
+  box-shadow: 0 0 0 3px rgba(0, 110, 42, 0.2);
+}
+
+.btn-cambiar {
+  height: 50px;
+  min-width: 110px;
+  padding: 0 16px;
+  background: var(--verde);
+  color: #ffffff;
+  border: none;
+  border-radius: var(--radio);
+  font-size: 16px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  cursor: pointer;
+  box-shadow: 0 3px 8px rgba(0, 110, 42, 0.25);
+  transition: transform 0.1s ease, background 0.15s ease;
+}
+
+.btn-cambiar:active {
+  transform: scale(0.96);
+}
+
+.btn-cambiar .material-symbols-outlined {
+  font-size: 22px;
 }
