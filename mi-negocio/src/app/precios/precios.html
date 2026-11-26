@@ -1,35 +1,130 @@
-<main class="menu">
-  <h1>Cambiar precios</h1>
-  <p class="saludo">Productos que ya están a la venta</p>
+<header class="encabezado">
+  <div class="encabezado-interno">
+    <a class="circulo" routerLink="/menu" aria-label="Volver al menú">
+      <span class="material-symbols-outlined">arrow_back</span>
+    </a>
+    <h1>Cambiar Precios</h1>
+    <span class="circulo oscuro" aria-hidden="true">
+      <span class="material-symbols-outlined">person</span>
+    </span>
+  </div>
+</header>
+
+<main class="pantalla">
+  <!-- Cabecera de búsqueda y modo protegido estilo Stitch -->
+  <section class="tarjeta caja-busqueda">
+    <div class="encabezado-modo">
+      <span class="material-symbols-outlined icono-modo">lock</span>
+      <span class="titulo-modo">Modo Dueño: Precios</span>
+      <span class="badge-protegido">Protegido</span>
+    </div>
+
+    <label class="etiqueta-busqueda" for="buscar-prod">
+      Buscar por nombre o marca:
+    </label>
+    <div class="input-busqueda-wrap">
+      <span class="material-symbols-outlined icono-buscar">search</span>
+      <input
+        id="buscar-prod"
+        type="text"
+        class="input-busqueda"
+        placeholder="Ej: Pan, Coca-Cola, Leche..."
+        [value]="busqueda()"
+        (input)="busqueda.set($any($event.target).value)"
+      />
+    </div>
+  </section>
 
   @if (error()) {
-    <p class="error">{{ error() }}</p>
-  }
-  @if (mensaje()) {
-    <p class="saludo">{{ mensaje() }}</p>
-  }
-
-  @for (p of productos(); track p.id) {
-    <div class="fila">
-      <div class="info">
-        <span class="nombre">{{ p.marca }} {{ p.nombre }}</span>
-        <span class="actual">Hoy: $ {{ formato(p.precio) }}</span>
-      </div>
-      <input
-        class="buscador"
-        type="text"
-        inputmode="numeric"
-        placeholder="Nuevo $"
-        [value]="p.nuevoPrecioTexto"
-        (input)="alEscribir(p, $event)"
-      />
-      <button class="boton verde chico" (click)="cambiarPrecio(p)">Cambiar</button>
+    <div class="aviso-error" role="alert">
+      <span class="material-symbols-outlined">error</span>
+      <p>{{ error() }}</p>
     </div>
   }
 
-  @if (productos().length === 0 && !error()) {
-    <p class="saludo">No hay productos a la venta todavía</p>
+  @if (mensaje()) {
+    <p class="aviso-info">{{ mensaje() }}</p>
   }
 
-  <a class="boton gris" routerLink="/">← Volver al menú</a>
+  <!-- Barra de conteo y estado -->
+  <div class="barra-estado-lista">
+    <span class="contador-prod">{{ productosFiltrados.length }} productos activos</span>
+    <span class="estado-actualizado">
+      <span class="material-symbols-outlined">check_circle</span>
+      Actualizado
+    </span>
+  </div>
+
+  <!-- Lista de productos estilo Stitch -->
+  @for (p of productosFiltrados; track p.id) {
+    <article class="card-producto">
+      <div class="card-producto-header">
+        <div class="producto-avatar">
+          <span class="material-symbols-outlined">inventory_2</span>
+        </div>
+        <div class="producto-info">
+          <div class="producto-categoria-marca">
+            <span>{{ p.marca || 'Sin marca' }}</span>
+          </div>
+          <h2 class="nombre-prod">{{ p.nombre }}</h2>
+          <div class="precio-anterior-wrap">
+            <span class="label-hoy">Hoy:</span>
+            <span class="precio-tachado">${{ formato(p.precio) }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-producto-action">
+        <div class="input-nuevo-wrap">
+          <span class="signo-peso">$</span>
+          <input
+            type="text"
+            inputmode="numeric"
+            class="input-nuevo-precio"
+            placeholder="Nuevo precio"
+            [value]="p.nuevoPrecioTexto"
+            (input)="alEscribir(p, $event)"
+            [attr.aria-label]="'Nuevo precio de ' + p.nombre"
+          />
+        </div>
+
+        <button class="btn-cambiar" type="button" (click)="cambiarPrecio(p)">
+          <span class="material-symbols-outlined">save</span>
+          <span>Cambiar</span>
+        </button>
+      </div>
+    </article>
+  } @empty {
+    <p class="centrado subtitulo">
+      @if (busqueda()) {
+        No se encontraron productos para "{{ busqueda() }}".
+      } @else {
+        No hay productos activos para cambiar precio.
+      }
+    </p>
+  }
+
+  <a class="boton gris" routerLink="/menu">
+    <span class="material-symbols-outlined">arrow_back</span>
+    Volver al menú
+  </a>
 </main>
+
+<nav class="navegacion">
+  <a routerLink="/menu">
+    <span class="material-symbols-outlined">grid_view</span>
+    Menú
+  </a>
+  <a routerLink="/vender">
+    <span class="material-symbols-outlined">point_of_sale</span>
+    Venta
+  </a>
+  <span>
+    <span class="material-symbols-outlined">receipt_long</span>
+    Fiados
+  </span>
+  <a class="activo" routerLink="/precios">
+    <span class="material-symbols-outlined">sell</span>
+    Precios
+  </a>
+</nav>

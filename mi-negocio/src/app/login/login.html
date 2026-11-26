@@ -1,13 +1,65 @@
-<main class="menu">
-  <h1>Mi Negocio</h1>
-  <p class="saludo">Inicia sesión para continuar</p>
+<header class="encabezado">
+  <div class="encabezado-interno">
+    <span class="espacio"></span>
+    <h1>Mi Negocio</h1>
+    <span class="circulo" aria-hidden="true">
+      <span class="material-symbols-outlined">help</span>
+    </span>
+  </div>
+</header>
 
-  <input class="buscador" type="email" placeholder="Correo" [(ngModel)]="correo" />
-  <input class="buscador" type="password" placeholder="Clave" [(ngModel)]="clave" />
+<main class="pantalla">
+  <section class="tarjeta">
+    <div class="logo-circulo" aria-hidden="true">
+      <span class="material-symbols-outlined">storefront</span>
+    </div>
 
-  @if (error) {
-    <p class="error">{{ error }}</p>
-  }
+    <h2 class="centrado">¡Hola de nuevo!</h2>
+    <p class="centrado subtitulo">Inicia sesión para continuar</p>
 
-  <button class="boton verde" (click)="entrar()">Entrar</button>
+    <label class="campo">
+      <span class="etiqueta">
+        <span class="material-symbols-outlined">account_circle</span>
+        Correo electrónico
+      </span>
+      <input type="email" name="correo" autocomplete="username"
+             placeholder="correo@ejemplo.cl" [(ngModel)]="correo">
+      <span class="ayuda-texto">Escriba el correo con el que registró su almacén</span>
+    </label>
+
+    <label class="campo">
+      <span class="etiqueta">
+        <span class="material-symbols-outlined">lock</span>
+        Clave de acceso
+      </span>
+      <input type="password" name="clave" autocomplete="current-password" [(ngModel)]="clave">
+    </label>
+
+    @if (error) {
+      <div class="aviso-error" role="alert">
+        <span class="material-symbols-outlined">error</span>
+        <div>
+          <strong>Atención</strong>
+          <p>{{ error }}</p>
+        </div>
+      </div>
+    }
+
+    <button class="boton" type="button" (click)="entrar()">
+      <span class="material-symbols-outlined">login</span>
+      Ingresar
+    </button>
+
+    <p class="centrado">
+      <a class="enlace" href="#">¿Olvidó su clave? Toca aquí para recuperarla</a>
+    </p>
+  </section>
+
+  <section class="tarjeta plana fila-tarjeta">
+    <span class="circulo-suave material-symbols-outlined">support_agent</span>
+    <div>
+      <strong>¿Necesita asistencia telefónica?</strong>
+      <p class="subtitulo">Llamada gratuita al 800 200 400</p>
+    </div>
+  </section>
 </main>

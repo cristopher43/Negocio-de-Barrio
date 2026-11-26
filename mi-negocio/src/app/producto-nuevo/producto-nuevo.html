@@ -1,29 +1,101 @@
-<main class="menu">
-  <h1>Producto nuevo</h1>
-  <p class="saludo">Llena los datos del producto que llegó</p>
+<header class="encabezado">
+  <div class="encabezado-interno">
+    <a class="circulo" routerLink="/menu" aria-label="Volver al menú">
+      <span class="material-symbols-outlined">arrow_back</span>
+    </a>
+    <h1>Producto Nuevo</h1>
+    <span class="circulo oscuro" aria-hidden="true">
+      <span class="material-symbols-outlined">person</span>
+    </span>
+  </div>
+</header>
 
-  <select class="buscador" [(ngModel)]="marcaId">
-    <option value="">Sin marca</option>
-    @for (m of marcas(); track m.id) {
-      <option [value]="m.id">{{ m.nombre }}</option>
-    }
-    <option value="nueva">+ Agregar marca nueva</option>
-  </select>
-
-  @if (marcaId === 'nueva') {
-    <input class="buscador" type="text" placeholder="Nombre de la marca" [(ngModel)]="marcaNueva" />
-  }
-
-  <input class="buscador" type="text" placeholder="Nombre (ej: 1.5 L, Pan amasado)" [(ngModel)]="nombre" />
-  <input class="buscador" type="number" placeholder="Cantidad que llegó" [(ngModel)]="cantidad" />
+<main class="pantalla">
+  <section class="tarjeta fila-tarjeta">
+    <span class="circulo-suave material-symbols-outlined">add_box</span>
+    <div>
+      <strong class="grande">Llegó mercadería</strong>
+      <p class="subtitulo">Registra el producto. El precio lo pone el dueño después.</p>
+    </div>
+  </section>
 
   @if (error()) {
-    <p class="error">{{ error() }}</p>
-  }
-  @if (mensaje()) {
-    <p class="saludo">{{ mensaje() }}</p>
+    <div class="aviso-error" role="alert">
+      <span class="material-symbols-outlined">error</span>
+      <p>{{ error() }}</p>
+    </div>
   }
 
-  <button class="boton verde" (click)="guardar()">Guardar producto</button>
-  <a class="boton gris" routerLink="/">← Volver al menú</a>
+  @if (mensaje()) {
+    <p class="aviso-info">{{ mensaje() }}</p>
+  }
+
+  <section class="tarjeta formulario">
+    <label class="campo">
+      <span class="etiqueta">
+        <span class="material-symbols-outlined">sell</span>
+        Marca
+      </span>
+      <select name="marca" [(ngModel)]="marcaId">
+        <option value="">Sin marca</option>
+        @for (m of marcas(); track m.id) {
+          <option [value]="m.id">{{ m.nombre }}</option>
+        }
+        <option value="nueva">+ Marca nueva</option>
+      </select>
+    </label>
+
+    @if (marcaId === 'nueva') {
+      <label class="campo">
+        <span class="etiqueta">Nombre de la marca nueva</span>
+        <input type="text" name="marcaNueva" placeholder="Ej: Lácteos Colún" [(ngModel)]="marcaNueva">
+      </label>
+    }
+
+    <label class="campo">
+      <span class="etiqueta">
+        <span class="material-symbols-outlined">inventory_2</span>
+        Nombre del producto
+      </span>
+      <input type="text" name="nombre" placeholder="Ej: Leche caja 1 L" [(ngModel)]="nombre">
+    </label>
+
+    <label class="campo">
+      <span class="etiqueta">
+        <span class="material-symbols-outlined">numbers</span>
+        Cantidad que llegó
+      </span>
+      <input type="text" name="cantidad" inputmode="numeric" placeholder="0"
+             formatoMiles [(ngModel)]="cantidad">
+    </label>
+
+    <button class="boton verde" type="button" (click)="guardar()">
+      <span class="material-symbols-outlined">save</span>
+      Guardar producto
+    </button>
+  </section>
+
+  <a class="boton gris" routerLink="/menu">
+    <span class="material-symbols-outlined">arrow_back</span>
+    Volver al menú
+  </a>
 </main>
+
+<nav class="navegacion">
+  <a routerLink="/menu">
+    <span class="material-symbols-outlined">grid_view</span>
+    Menú
+  </a>
+  <a routerLink="/vender">
+    <span class="material-symbols-outlined">point_of_sale</span>
+    Venta
+  </a>
+  <span>
+    <span class="material-symbols-outlined">receipt_long</span>
+    Fiados
+  </span>
+  <a routerLink="/precios">
+    <span class="material-symbols-outlined">sell</span>
+    Precios
+  </a>
+</nav>

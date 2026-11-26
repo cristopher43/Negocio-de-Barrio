@@ -3,6 +3,7 @@ import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { supabase } from '../supabase';
 import { obtenerSesion } from '../sesion';
+import { FormatoMilesDirective } from '../formato-miles.directive';
 
 type Item = { id: string; nombre: string; precioInput: number | null };
 
@@ -15,7 +16,7 @@ type Grupo = {
 
 @Component({
   selector: 'app-pendientes',
-  imports: [FormsModule, RouterLink],
+  imports: [FormsModule, RouterLink, FormatoMilesDirective],
   templateUrl: './pendientes.html',
   styleUrl: './pendientes.css',
 })

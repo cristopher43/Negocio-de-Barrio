@@ -23,10 +23,21 @@ export class Precios implements OnInit {
   productos = signal<Producto[]>([]);
   mensaje = signal('');
   error = signal('');
+  busqueda = signal('');
 
   sesion: { idUsuario: string; idNegocio: string; rol: string } | null = null;
 
   formato = formatoMiles;
+
+  get productosFiltrados(): Producto[] {
+    const texto = this.busqueda().trim().toLowerCase();
+    if (!texto) return this.productos();
+    return this.productos().filter(
+      (p) =>
+        p.nombre.toLowerCase().includes(texto) ||
+        p.marca.toLowerCase().includes(texto)
+    );
+  }
 
   async ngOnInit() {
     this.sesion = await obtenerSesion();
