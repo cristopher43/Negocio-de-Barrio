@@ -1,0 +1,12 @@
+.texto {
+  font-size: 18px;
+  text-align: left;
+  line-height: 1.5;
+}
+
+h2 {
+  font-size: 22px;
+  color: #0c447c;
+  text-align: left;
+  margin-top: 24px;
+}
