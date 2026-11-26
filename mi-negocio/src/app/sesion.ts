@@ -1,16 +1,31 @@
 import { supabase } from './supabase';
 
-export async function obtenerSesion() {
+export type Sesion = {
+  idUsuario: string;
+  idNegocio: string;
+  rol: string;
+  nombre: string;
+  correo: string;
+};
+
+// Devuelve quién está usando la app: nombre, correo, rol y negocio
+export async function obtenerSesion(): Promise<Sesion | null> {
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return null;
 
-  const { data } = await supabase
+  const { data, error } = await supabase
     .from('usuario')
-    .select('id_negocio, rol')
+    .select('id_negocio, rol, nombre, correo')
     .eq('id', user.id)
     .single();
 
-  return data
-    ? { idUsuario: user.id, idNegocio: data.id_negocio as string, rol: data.rol as string }
-    : null;
+  if (error || !data) return null;
+
+  return {
+    idUsuario: user.id,
+    idNegocio: data.id_negocio,
+    rol: data.rol,
+    nombre: data.nombre,
+    correo: data.correo,
+  };
 }

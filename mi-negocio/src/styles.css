@@ -22,12 +22,37 @@
   --foco: 0 0 0 3px #1f5fd6;
 }
 
-/* En tablet y PC el contenido se hace más ancho */
+/* En tablet y PC el contenido y navegación se adaptan elegantemente */
 @media (min-width: 640px) {
-  :root { --ancho: 720px; }
+  :root { --ancho: 680px; }
+  .pantalla {
+    padding-top: 24px;
+    gap: 20px;
+  }
+  .lista-botones {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+  }
 }
 @media (min-width: 1024px) {
-  :root { --ancho: 960px; }
+  :root { --ancho: 980px; }
+  .pantalla {
+    padding-top: 32px;
+    padding-bottom: 120px;
+    gap: 24px;
+  }
+  .lista-botones {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  .encabezado h1 {
+    font-size: 26px;
+  }
+  .navegacion {
+    border-radius: 20px 20px 0 0;
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.08);
+  }
 }
 
 /* ----- 2. Base ----- */

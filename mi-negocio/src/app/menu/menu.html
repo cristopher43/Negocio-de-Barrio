@@ -4,13 +4,23 @@
       <span class="material-symbols-outlined">storefront</span>
     </span>
     <h1>Menú Principal</h1>
-    <span class="circulo oscuro" aria-hidden="true">
-      <span class="material-symbols-outlined">person</span>
-    </span>
+    <app-usuario-avatar [sesion]="sesion" (alCerrarSesion)="salir()"></app-usuario-avatar>
   </div>
 </header>
 
 <main class="pantalla">
+  @if (sesion) {
+    <section class="tarjeta fila-tarjeta">
+      <span class="circulo-suave material-symbols-outlined">badge</span>
+      <div class="grow">
+        <strong class="grande">{{ sesion.nombre }}</strong>
+        <p class="ayuda-texto">{{ sesion.correo }}</p>
+        <p class="ayuda-texto">Si no eres tú, cierra sesión abajo.</p>
+      </div>
+      <span class="chip">{{ sesion.rol === 'dueno' ? 'Dueño' : 'Trabajador' }}</span>
+    </section>
+  }
+
   <section class="tarjeta fila-tarjeta">
     <span class="circulo-ok material-symbols-outlined">check_circle</span>
     <div class="grow">
@@ -60,6 +70,12 @@
       <a class="boton lista" routerLink="/producto-nuevo">
         <span class="icono-caja material-symbols-outlined">inventory_2</span>
         <span class="texto">Productos</span>
+        <span class="material-symbols-outlined flecha">chevron_right</span>
+      </a>
+
+      <a class="boton lista" routerLink="/trabajadores">
+        <span class="icono-caja material-symbols-outlined">group_add</span>
+        <span class="texto">Trabajadores</span>
         <span class="material-symbols-outlined flecha">chevron_right</span>
       </a>
 
