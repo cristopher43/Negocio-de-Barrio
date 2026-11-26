@@ -1,11 +1,11 @@
 <main class="menu">
   <h1>Nueva venta</h1>
-  <p class="saludo">{{ mensaje }}</p>
+  <p class="saludo">{{ mensaje() }}</p>
   <p>Total: $ {{ total }}</p>
 
   <button class="boton verde" (click)="escanear()">📷 Escanear producto</button>
 
-  <input class="buscador" type="text" placeholder="Buscar producto" [(ngModel)]="busqueda" />
+  <input class="buscador" type="text" placeholder="Escribe el nombre o la marca..." [(ngModel)]="busqueda" />
 
   @if (seleccionado) {
     <p class="saludo">Elegiste: {{ seleccionado }}</p>
@@ -13,7 +13,7 @@
 
   @for (p of resultados; track p.id) {
     <button class="boton morado" (click)="elegir(p)">
-      {{ p.nombre }} - $ {{ p.precio }}
+      {{ p.marca }} {{ p.nombre }} - $ {{ p.precio }}
     </button>
   }
 

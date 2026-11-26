@@ -1,0 +1,40 @@
+<main class="menu">
+  <h1>Pendientes</h1>
+  <p class="saludo">Pon el precio de cada producto que llegó</p>
+
+  @if (error()) {
+    <p class="error">{{ error() }}</p>
+  }
+  @if (mensaje()) {
+    <p class="saludo">{{ mensaje() }}</p>
+  }
+
+  @for (grupo of grupos(); track grupo.marcaId ?? 'sin-marca') {
+    <section class="grupo">
+      <h2>
+        {{ grupo.marcaNombre }}
+        @if (grupo.marcaEstado === 'pendiente') {
+          <span class="etiqueta">Marca nueva</span>
+        }
+      </h2>
+
+      @if (grupo.marcaEstado === 'pendiente') {
+        <button class="boton azul" (click)="confirmarMarca(grupo)">Confirmar marca</button>
+      }
+
+      @for (item of grupo.items; track item.id) {
+        <div class="fila">
+          <span class="nombre">{{ item.nombre }}</span>
+          <input class="buscador" type="number" placeholder="$" [(ngModel)]="item.precioInput" />
+        </div>
+      }
+    </section>
+  }
+
+  @if (grupos().length === 0 && !error()) {
+    <p class="saludo">No hay productos esperando precio</p>
+  }
+
+  <button class="boton verde" (click)="guardarTodos()">Guardar todos</button>
+  <a class="boton gris" routerLink="/">← Volver al menú</a>
+</main>

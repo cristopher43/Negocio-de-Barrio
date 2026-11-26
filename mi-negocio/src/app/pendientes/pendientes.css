@@ -1,0 +1,37 @@
+.azul { background: #1f6fd1; }
+
+.grupo {
+  margin-bottom: 24px;
+  text-align: left;
+}
+
+.grupo h2 {
+  font-size: 22px;
+  color: #0c447c;
+}
+
+.fila {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.nombre {
+  flex: 1;
+  font-size: 20px;
+}
+
+.fila .buscador {
+  width: 140px;
+  margin-bottom: 0;
+}
+
+.etiqueta {
+  font-size: 14px;
+  background: #faeeda;
+  color: #633806;
+  padding: 4px 8px;
+  border-radius: 8px;
+  margin-left: 8px;
+}

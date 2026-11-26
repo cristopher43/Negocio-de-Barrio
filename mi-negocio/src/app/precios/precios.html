@@ -1,0 +1,35 @@
+<main class="menu">
+  <h1>Cambiar precios</h1>
+  <p class="saludo">Productos que ya están a la venta</p>
+
+  @if (error()) {
+    <p class="error">{{ error() }}</p>
+  }
+  @if (mensaje()) {
+    <p class="saludo">{{ mensaje() }}</p>
+  }
+
+  @for (p of productos(); track p.id) {
+    <div class="fila">
+      <div class="info">
+        <span class="nombre">{{ p.marca }} {{ p.nombre }}</span>
+        <span class="actual">Hoy: $ {{ formato(p.precio) }}</span>
+      </div>
+      <input
+        class="buscador"
+        type="text"
+        inputmode="numeric"
+        placeholder="Nuevo $"
+        [value]="p.nuevoPrecioTexto"
+        (input)="alEscribir(p, $event)"
+      />
+      <button class="boton verde chico" (click)="cambiarPrecio(p)">Cambiar</button>
+    </div>
+  }
+
+  @if (productos().length === 0 && !error()) {
+    <p class="saludo">No hay productos a la venta todavía</p>
+  }
+
+  <a class="boton gris" routerLink="/">← Volver al menú</a>
+</main>

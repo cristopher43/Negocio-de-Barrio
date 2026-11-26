@@ -3,7 +3,7 @@ import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { supabase } from '../supabase';
 
-type Producto = { id: string; nombre: string; precio: number };
+type Producto = { id: string; nombre: string; marca: string; precio: number };
 
 @Component({
   selector: 'app-venta',
@@ -22,15 +22,16 @@ export class Venta implements OnInit {
     const texto = this.busqueda.trim().toLowerCase();
     if (!texto) return [];
 
+    // Busca en marca y nombre juntos
     return this.productos().filter((p) =>
-      p.nombre.toLowerCase().includes(texto)
+      `${p.marca} ${p.nombre}`.toLowerCase().includes(texto)
     );
   }
 
   async ngOnInit() {
     const { data, error } = await supabase
       .from('producto')
-      .select('id, nombre, precio')
+      .select('id, nombre, precio, marca:marca(nombre)')
       .eq('estado_precio', 'activo');
 
     if (error) {
@@ -42,6 +43,7 @@ export class Venta implements OnInit {
       (data ?? []).map((p) => ({
         id: p.id,
         nombre: p.nombre,
+        marca: (p.marca as unknown as { nombre: string } | null)?.nombre ?? '',
         precio: Number(p.precio),
       }))
     );
@@ -53,7 +55,7 @@ export class Venta implements OnInit {
   }
 
   elegir(producto: Producto) {
-    this.seleccionado = producto.nombre;
+    this.seleccionado = `${producto.marca} ${producto.nombre}`.trim();
     this.total += producto.precio;
   }
 }

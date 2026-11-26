@@ -1,0 +1,29 @@
+<main class="menu">
+  <h1>Producto nuevo</h1>
+  <p class="saludo">Llena los datos del producto que llegó</p>
+
+  <select class="buscador" [(ngModel)]="marcaId">
+    <option value="">Sin marca</option>
+    @for (m of marcas(); track m.id) {
+      <option [value]="m.id">{{ m.nombre }}</option>
+    }
+    <option value="nueva">+ Agregar marca nueva</option>
+  </select>
+
+  @if (marcaId === 'nueva') {
+    <input class="buscador" type="text" placeholder="Nombre de la marca" [(ngModel)]="marcaNueva" />
+  }
+
+  <input class="buscador" type="text" placeholder="Nombre (ej: 1.5 L, Pan amasado)" [(ngModel)]="nombre" />
+  <input class="buscador" type="number" placeholder="Cantidad que llegó" [(ngModel)]="cantidad" />
+
+  @if (error()) {
+    <p class="error">{{ error() }}</p>
+  }
+  @if (mensaje()) {
+    <p class="saludo">{{ mensaje() }}</p>
+  }
+
+  <button class="boton verde" (click)="guardar()">Guardar producto</button>
+  <a class="boton gris" routerLink="/">← Volver al menú</a>
+</main>

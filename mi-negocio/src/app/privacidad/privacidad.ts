@@ -3,7 +3,7 @@ import { RouterLink } from "@angular/router";
 
 @Component({
   selector: "app-privacidad",
-  imports: [RouterLink],
+  imports: [],
   templateUrl: "./privacidad.html",
   styleUrl: "./privacidad.css",
 })
